@@ -1,5 +1,4 @@
 import jdk.jfr.Description;
-import net.bytebuddy.implementation.auxiliary.MethodCallProxy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +7,11 @@ public class CacheTest {
     @Test
     @Description("Вызов метода без аннотации. Тестирование с использованием  тестового класса")
     void doubleValueFractionTest(){
-        String result;
+
         FractionTest fractionTest = new FractionTest(20, 4);
         Fractionable fr = Utility.Cache(fractionTest);
         for(int i = 0; i < 4; i++)
-            result =  fr.toString();
+            fr.toString();
         Assertions.assertEquals(4, fractionTest.cmpCnt);
     }
     @Test
@@ -34,20 +33,18 @@ public class CacheTest {
         for(int i = 0; i < 4; i++)
             fr.doubleValue();
         Assertions.assertEquals(1, fractionTest.cmpCnt);
-
     }
-
     @Test
     @Description("Вызов методов. Тестирование с использованием  тестового класса")
     void doubleValueFractionTestMix(){
-        String result;
+
         FractionTest fractionTest = new FractionTest(20, 4);
         Fractionable fr = Utility.Cache(fractionTest);
         fr.doubleValue();
         fr.doubleValue();
         Assertions.assertEquals(1, fractionTest.cmpCnt);
-        result =  fr.toString();
-        result =  fr.toString();
+        fr.toString();
+        fr.toString();
         Assertions.assertEquals(3, fractionTest.cmpCnt);
         fr.doubleValue();
         Assertions.assertEquals(3, fractionTest.cmpCnt);

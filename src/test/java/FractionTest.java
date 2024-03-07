@@ -7,11 +7,7 @@ public class FractionTest implements  Fractionable{
         this.num = num;
         this.denum = denum;
     }
-    // Метод не помечаем аннотацией
-    public double sumValue() {
-        cmpCnt++;
-        return (double) num + denum;
-    }
+
     @Cache
     @Override
     public double doubleValue() {
