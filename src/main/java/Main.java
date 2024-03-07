@@ -1,21 +1,13 @@
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main {
 
-   /* public static <T> Object Cache(T  fr)  {
-        CacheInvocationHandler cacheInvocationHandler =  new CacheInvocationHandler(fr);
-        Class[] interfaces = fr.getClass().getInterfaces();
-        Object proxyObject = Proxy.newProxyInstance(Fraction.class.getClassLoader(), new Class[] {interfaces[0]} , cacheInvocationHandler);
-
-        return proxyObject;
-    }
-*/
-
-
     public static void main(String[] args) throws ClassNotFoundException {
-       //List<String>  listProxy = Utility.Cache(new ArrayList<>()); -- проверяем для другого объекта
-
+        List<String> listProxy = Utility.Cache(new ArrayList<>()); // проверяем для другого объекта
+        listProxy.add("user");
         Fractionable numProxy = Utility.Cache(new Fraction(2,3));
         numProxy.doubleValue(); // sout сработал
         numProxy.doubleValue(); // молчит

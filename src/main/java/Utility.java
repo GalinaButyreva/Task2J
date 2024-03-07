@@ -5,7 +5,7 @@ public class Utility {
     public static <T> T Cache(T  fr)  {
         CacheInvocationHandler cacheInvocationHandler =  new CacheInvocationHandler(fr);
         Class[] interfaces = fr.getClass().getInterfaces();
-        T proxyObject = (T) Proxy.newProxyInstance(Fraction.class.getClassLoader(), new Class[] {interfaces[0]} , cacheInvocationHandler);
+        T proxyObject = (T) Proxy.newProxyInstance(Fraction.class.getClassLoader(), interfaces , cacheInvocationHandler);
         return proxyObject;
     }
 }
