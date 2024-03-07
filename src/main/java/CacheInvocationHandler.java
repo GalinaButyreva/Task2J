@@ -23,7 +23,7 @@ public class CacheInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Object  resultOfInvocation      = null;                 // результат выполнения
+        Object  resultOfInvocation;                               // результат выполнения
         boolean isMethodMutator         = false;                // метод явл-ся мутатором
         boolean isMethodCache           = false;                // метод с аннотацией Cache
 
@@ -41,7 +41,7 @@ public class CacheInvocationHandler implements InvocationHandler {
 
         // Если вызван метод  с аннот. CACHE
         if (isMethodCache) {
-            if (methodCaches.containsKey(method) == false || changed) {
+            if (!methodCaches.containsKey(method)  || changed) {
                 // Если метод  с аннот. CACHE  был вызван первый раз или значение было изменено методом с аннотацией Mutator
                 resultOfInvocation = method.invoke(targetObject, args);
                 // Фиксируем инфо о вычисленном значении

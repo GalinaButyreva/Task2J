@@ -1,8 +1,70 @@
 import jdk.jfr.Description;
+import net.bytebuddy.implementation.auxiliary.MethodCallProxy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class CacheTest {
+    //  Добавлено тестирование с использованием тестового класса
+    @Test
+    @Description("Вызов метода без аннотации. Тестирование с использованием  тестового класса")
+    void doubleValueFractionTest(){
+        String result;
+        FractionTest fractionTest = new FractionTest(20, 4);
+        Fractionable fr = Utility.Cache(fractionTest);
+        for(int i = 0; i < 4; i++)
+            result =  fr.toString();
+        Assertions.assertEquals(4, fractionTest.cmpCnt);
+    }
+    @Test
+    @Description("Вызов метода c аннотацией Mutator. Тестирование с использованием  тестового класса")
+    void doubleValueFractionTestMutator(){
+        FractionTest fractionTest = new FractionTest(20, 4);
+        Fractionable fr = Utility.Cache(fractionTest);
+        for(int i = 0; i < 4; i++)
+            fr.setNum(40);
+        Assertions.assertEquals(0, fractionTest.cmpCnt);
+        Assertions.assertEquals(4, fractionTest.cmpCntMutator);
+    }
+
+    @Test
+    @Description("Вызов метода c аннотацией Cache. Тестирование с использованием  тестового класса")
+    void doubleValueFractionTestCache(){
+        FractionTest fractionTest = new FractionTest(20, 4);
+        Fractionable fr = Utility.Cache(fractionTest);
+        for(int i = 0; i < 4; i++)
+            fr.doubleValue();
+        Assertions.assertEquals(1, fractionTest.cmpCnt);
+
+    }
+
+    @Test
+    @Description("Вызов методов. Тестирование с использованием  тестового класса")
+    void doubleValueFractionTestMix(){
+        String result;
+        FractionTest fractionTest = new FractionTest(20, 4);
+        Fractionable fr = Utility.Cache(fractionTest);
+        fr.doubleValue();
+        fr.doubleValue();
+        Assertions.assertEquals(1, fractionTest.cmpCnt);
+        result =  fr.toString();
+        result =  fr.toString();
+        Assertions.assertEquals(3, fractionTest.cmpCnt);
+        fr.doubleValue();
+        Assertions.assertEquals(3, fractionTest.cmpCnt);
+        // Вызов метода, помеченного аннотацией Mutator
+        fr.setNum(40);
+        Assertions.assertEquals(3, fractionTest.cmpCnt);
+        Assertions.assertEquals(1, fractionTest.cmpCntMutator);
+
+        fr.doubleValue();
+        Assertions.assertEquals(4, fractionTest.cmpCnt);
+        fr.doubleValue();
+        fr.doubleValue();
+        Assertions.assertEquals(4, fractionTest.cmpCnt);
+
+    }
+
+    // Тестирование с использованием базового класса
     @Test
     @Description("Тестирование значений в кэше")
     void DoubleValue() {
@@ -44,17 +106,9 @@ public class CacheTest {
         numProxy.setNumForTest(5);
        Assertions.assertNotEquals(20, numProxy.multiplyValue());
 
-
-
-
-
-
-
-
-
-
-
     }
+
+
 
 
 }
